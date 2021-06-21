@@ -1,3 +1,65 @@
+let actionButtons = document.querySelectorAll('#config-action button');
+let resultBox = document.querySelector('#result');
+
+result.oninput = function() {
+    if (resultBox.value === '') {
+        actionButtons.forEach(btn => btn.setAttribute('disabled', ''));
+    } else {
+        actionButtons.forEach(btn => btn.removeAttribute('disabled'));
+    }
+};
+
+document.querySelector("#config-save").addEventListener("click", function(e) {
+
+    e.preventDefault();
+    let config = resultBox.value;
+    downloadOnClick('VPN.conf', config);
+
+});
+
+document.querySelector("#config-qrcode").addEventListener("click", function(e) {
+
+    e.preventDefault();
+
+    let config = resultBox.value;
+    let configEncoded = encodeURIComponent(config);
+
+    var url = "https://chart.googleapis.com/chart?cht=qr&chs=500x500&chl=" + configEncoded + "&choe=UTF-8";
+
+    let modal = document.querySelector("#modal-qrcode");
+    let modalImage = modal.querySelector("img");
+
+    modalImage.src = url;
+
+    modal.classList.add("is-active", "is-clipped");
+
+});
+
+document.querySelector("#config-copy").addEventListener("click", function(e) {
+
+    e.preventDefault();
+    
+    resultBox.select();
+    document.execCommand("copy");
+    resultBox.blur();
+    alert("Config copied to clipboard.");
+
+});
+
+document.querySelector(".modal-close").addEventListener("click", function(e) {
+
+    this.closest("div.modal").classList.remove("is-active", "is-clipped");
+    document.querySelector("#modal-qrcode img").src = "./loading.gif";
+
+});
+
+document.querySelector("#enable-address-edit").addEventListener("dblclick", (e) => {
+
+    let inputAddress = document.querySelector("input[name=address]");
+    inputAddress.removeAttribute("readonly");
+
+});
+
 function downloadOnClick(filename, content) {
 
     let config = content;
@@ -22,56 +84,3 @@ function downloadOnClick(filename, content) {
     downloadLink.click();
 
 }
-
-document.querySelector("#config-save").addEventListener("click", function(e) {
-
-    e.preventDefault();
-    let config = document.querySelector("#result").value;
-    downloadOnClick('VPN.conf', config);
-
-});
-
-document.querySelector("#config-qrcode").addEventListener("click", function(e) {
-
-    e.preventDefault();
-
-    let config = document.querySelector("#result").value;
-    let configEncoded = encodeURIComponent(config);
-
-    var url = "https://chart.googleapis.com/chart?cht=qr&chs=500x500&chl=" + configEncoded + "&choe=UTF-8";
-
-    let modal = document.querySelector("#modal-qrcode");
-    let modalImage = modal.querySelector("img");
-
-    modalImage.src = url;
-
-    modal.classList.add("is-active", "is-clipped");
-
-});
-
-document.querySelector("#config-copy").addEventListener("click", function(e) {
-
-    e.preventDefault();
-    let config = document.querySelector("#result");
-    
-    config.select();
-    document.execCommand("copy");
-    config.blur();
-    alert("Config copied to clipboard");
-
-});
-
-document.querySelector(".modal-close").addEventListener("click", function(e) {
-
-    this.closest("div.modal").classList.remove("is-active", "is-clipped");
-    document.querySelector("#modal-qrcode img").src = "./loading.gif";
-
-});
-
-document.querySelector("#enable-address-edit").addEventListener("dblclick", (e) => {
-
-    let inputAddress = document.querySelector("input[name=address]");
-    inputAddress.removeAttribute("readonly");
-
-});
-

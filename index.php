@@ -153,14 +153,14 @@ $ip_address = $wg->get_available_ip();
                             </div>
                         </div>
 
-                        <p class="buttons">
-                            <button id="config-save" class="button is-link">
+                        <p id="config-action" class="buttons">
+                            <button id="config-save" class="button is-link" <?= isset($output) ? '' : 'disabled' ?>>
                                 <span class="material-icons">save_alt</span>
                             </button>
-                            <button id="config-qrcode" class="button is-link">
+                            <button id="config-qrcode" class="button is-link" <?= isset($output) ? '' : 'disabled' ?>>
                                 <span class="material-icons">qr_code_2</span>
                             </button>
-                            <button id="config-copy" class="button is-link">
+                            <button id="config-copy" class="button is-link" <?= isset($output) ? '' : 'disabled' ?>>
                                 <span class="material-icons">content_copy</span>
                             </button>
                         </p>
