@@ -25,7 +25,7 @@ if (isset($_POST['address']) && isset($_POST['dns']) && isset($_POST['endpoint']
  * 
  */
 $ip_address = $wg->get_available_ip();
-
+$freeAddress = $ip_address ? $wg->host_ip_info['long']['broadcast'] - ip2long($ip_address) : '0';
 
 ?>
 <!DOCTYPE html>
@@ -109,7 +109,7 @@ $ip_address = $wg->get_available_ip();
                             <div class="control">
                                 <input class="input" name="address" readonly required type="text" value="<?= $ip_address === false ? 'No IP available.' : $ip_address ?>">
                             </div>
-                            <p class="help">Max host address: <?= $wg->host_ip_info['hostMax']; ?></p>
+                            <p class="help">Free IP address left: <?= $freeAddress ?></p>
                         </div>
 
                         <div class="field">
