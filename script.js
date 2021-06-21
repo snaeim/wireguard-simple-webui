@@ -1,13 +1,14 @@
 let actionButtons = document.querySelectorAll('#config-action button');
 let resultBox = document.querySelector('#result');
 
-result.oninput = function() {
-    if (resultBox.value === '') {
-        actionButtons.forEach(btn => btn.setAttribute('disabled', ''));
-    } else {
-        actionButtons.forEach(btn => btn.removeAttribute('disabled'));
-    }
+result.oninput = ()=>{
+    toggleActionButtons(actionButtons, resultBox);
 };
+
+// run on document ready
+(function() {
+    toggleActionButtons(actionButtons, resultBox);
+})();
 
 document.querySelector("#config-save").addEventListener("click", function(e) {
 
@@ -82,5 +83,19 @@ function downloadOnClick(filename, content) {
     }
 
     downloadLink.click();
+
+}
+
+function toggleActionButtons(actionButtons, resultBox){
+
+    let actionButtonsDisabled = (actionButtons[0].getAttribute('disabled') === '');
+    let validConfig = (resultBox.value.includes('[Interface]') && resultBox.value.includes('[Peer]'));
+
+    if (validConfig && actionButtonsDisabled) {
+        actionButtons.forEach(btn => btn.removeAttribute('disabled'));
+    }
+    if (!validConfig && !actionButtonsDisabled) {
+        actionButtons.forEach(btn => btn.setAttribute('disabled', ''));
+    }
 
 }
